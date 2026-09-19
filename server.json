@@ -1,36 +1,26 @@
 {
-  "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
-  "serverInfo": {
-    "name": "audiopod-ai",
-    "version": "1.0.0",
-    "title": "AudioPod AI",
-    "description": "Hosted MCP server for AudioPod's audio AI: text-to-speech, voice cloning, voice conversion, music generation, stem & speaker separation, transcription, denoise, and media conversion.",
-    "vendor": "AudioPod AI",
-    "homepage": "https://audiopod.ai",
-    "documentation": "https://docs.audiopod.ai/sdks/mcp",
-    "contact": "support@audiopod.ai"
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.audiopod/audiopod",
+  "title": "AudioPod AI",
+  "description": "Audio AI tools: text-to-speech, voice cloning, music generation, stem separation, transcription.",
+  "version": "2026.9.19",
+  "websiteUrl": "https://docs.audiopod.ai/sdks/mcp",
+  "repository": {
+    "url": "https://github.com/AudiopodAI/audiopod-mcp",
+    "source": "github"
   },
-  "transport": {
-    "type": "streamable-http",
-    "endpoint": "https://mcp.audiopod.ai",
-    "protocolVersion": "2025-06-18"
-  },
-  "authentication": {
-    "type": "oauth2",
-    "alternatives": ["api-key"],
-    "metadata": "https://audiopod.ai/.well-known/oauth-protected-resource",
-    "apiKeyHeader": "X-API-Key"
-  },
-  "tools": [
-    { "name": "text_to_speech", "description": "Synthesize speech from text in 85+ languages and 500+ voices." },
-    { "name": "clone_voice", "description": "Clone a voice from a 5-30s reference clip and reuse it for TTS." },
-    { "name": "change_voice", "description": "Convert a recording to a different target voice (voice-to-voice)." },
-    { "name": "generate_music", "description": "Generate a song, instrumental, vocal stem, or rap track from a text prompt." },
-    { "name": "separate_stems", "description": "Split audio into stems (vocals, drums, bass, ...); two-stem mode is karaoke." },
-    { "name": "separate_speakers", "description": "Isolate each speaker into a separate track from multi-speaker audio." },
-    { "name": "transcribe_audio", "description": "Transcribe audio with speaker diarization and word-level timestamps." },
-    { "name": "denoise_audio", "description": "Remove background noise from speech recordings." },
-    { "name": "convert_media", "description": "Convert audio or video between formats." },
-    { "name": "check_job_status", "description": "Poll the status and result of a long-running job." }
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.audiopod.ai",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "AudioPod API key (ap_...) from https://www.audiopod.ai/dashboard/account/api-keys",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
   ]
 }

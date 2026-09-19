@@ -1,0 +1,41 @@
+# Dormant — GitHub Actions is disabled org-wide (PLAT-1925); the live path is
+# scripts/mcp_registry_publish.sh in the superproject.
+#
+# Kept in sync with the MCP Registry's documented DNS-auth workflow so that this
+# becomes the publish path the day Actions is re-enabled. If you enable it, add
+# the repository secret MCP_PRIVATE_KEY — the raw 32-byte Ed25519 seed as 64 hex
+# characters (NOT a PEM), the same value as MCP_REGISTRY_ED25519_SEED_HEX in
+# apps/backend/.env. The matching public key must be live in the apex TXT record
+# on audiopod.ai: v=MCPv1; k=ed25519; p=<base64 pubkey>
+
+name: Publish to MCP Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - server.json
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mcp-publisher
+        run: |
+          curl -sSL "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+          ./mcp-publisher --help > /dev/null
+
+      - name: Validate server.json
+        run: ./mcp-publisher validate server.json
+
+      - name: Log in via DNS
+        run: ./mcp-publisher login dns --domain audiopod.ai --private-key "$MCP_PRIVATE_KEY"
+        env:
+          MCP_PRIVATE_KEY: ${{ secrets.MCP_PRIVATE_KEY }}
+
+      - name: Publish
+        run: ./mcp-publisher publish

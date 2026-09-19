@@ -10,6 +10,8 @@ Hosted [Model Context Protocol](https://modelcontextprotocol.io) server for **Au
 | **Docs** | https://docs.audiopod.ai/sdks/mcp |
 | **Discovery** | [`/.well-known/mcp/server-card.json`](https://audiopod.ai/.well-known/mcp/server-card.json) |
 
+**Registry name:** `ai.audiopod/audiopod` (official [MCP Registry](https://registry.modelcontextprotocol.io)).
+
 ## Tools
 
 | Tool | Does |
@@ -71,6 +73,10 @@ Apply to **[AudioPod for Startups](https://audiopod.ai/startups)** — free Pro 
 - Website — https://audiopod.ai
 - API + SDK docs — https://docs.audiopod.ai
 - MCP setup guide — https://docs.audiopod.ai/sdks/mcp
+
+Two manifests live here and they are not interchangeable: `server.json` is the
+official registry entry (registry schema), `server-card.json` is the MCP server
+card — a reference copy, since the live card is served at the Discovery URL above.
 
 ## License
 
