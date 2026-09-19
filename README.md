@@ -12,11 +12,13 @@ Hosted [Model Context Protocol](https://modelcontextprotocol.io) server for **Au
 
 **Registry name:** `ai.audiopod/audiopod` (official [MCP Registry](https://registry.modelcontextprotocol.io)).
 
+**Using a coding agent?** [`AudiopodAI/audiopod-plugins`](https://github.com/AudiopodAI/audiopod-plugins) wraps this server plus fourteen task skills as a one-command install for the major agent CLIs and editors.
+
 ## Tools
 
 | Tool | Does |
 |---|---|
-| `text_to_speech` | Speech in 85+ languages, 500+ voices and custom clones |
+| `text_to_speech` | Speech in 200+ languages, 500+ voices and custom clones |
 | `clone_voice` | Clone a voice from a 5–30s reference clip |
 | `change_voice` | Convert a recording to a different target voice |
 | `generate_music` | Songs, instrumentals, rap, or vocal stems from a text prompt |
