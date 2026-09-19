@@ -12,6 +12,8 @@ Hosted [Model Context Protocol](https://modelcontextprotocol.io) server for **Au
 
 **Registry name:** `ai.audiopod/audiopod` (official [MCP Registry](https://registry.modelcontextprotocol.io)).
 
+**Installing with an agent?** [`llms-install.md`](./llms-install.md) is the unattended-install guide — config for each client, how to verify, and the failures to expect.
+
 **Using a coding agent?** [`AudiopodAI/audiopod-plugins`](https://github.com/AudiopodAI/audiopod-plugins) wraps this server plus fourteen task skills as a one-command install for the major agent CLIs and editors.
 
 ## Tools

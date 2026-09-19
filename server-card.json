@@ -22,7 +22,7 @@
     "apiKeyHeader": "X-API-Key"
   },
   "tools": [
-    { "name": "text_to_speech", "description": "Synthesize speech from text in 85+ languages and 500+ voices." },
+    { "name": "text_to_speech", "description": "Synthesize speech from text in 200+ languages and 500+ voices." },
     { "name": "clone_voice", "description": "Clone a voice from a 5-30s reference clip and reuse it for TTS." },
     { "name": "change_voice", "description": "Convert a recording to a different target voice (voice-to-voice)." },
     { "name": "generate_music", "description": "Generate a song, instrumental, vocal stem, or rap track from a text prompt." },
