@@ -16,6 +16,12 @@ Hosted [Model Context Protocol](https://modelcontextprotocol.io) server for **Au
 
 **Using a coding agent?** [`AudiopodAI/audiopod-plugins`](https://github.com/AudiopodAI/audiopod-plugins) wraps this server plus fourteen task skills as a one-command install for the major agent CLIs and editors.
 
+**Prefer HTTP?** The same capabilities are a REST API, and the public **Getting
+Started** collection reaches a real `200` in two requests with no account and no
+API key. [More about the collections](https://docs.audiopod.ai/sdks/postman).
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/58401244-916ddbda-1a70-4c07-8ccd-fe524703a84b?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D58401244-916ddbda-1a70-4c07-8ccd-fe524703a84b%26entityType%3Dcollection%26workspaceId%3D8013472d-5897-47d1-bf5c-92683a027b35&utm_source=audiopod-mcp)
+
 ## Tools
 
 | Tool | Does |
