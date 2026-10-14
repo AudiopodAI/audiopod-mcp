@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.audiopod/audiopod-core",
+  "title": "AudioPod AI (core)",
+  "description": "Transcribe with speaker labels, split stems, remove noise, separate speakers, convert audio to MIDI.",
+  "version": "2026.10.14",
+  "websiteUrl": "https://docs.audiopod.ai/agents",
+  "repository": {
+    "url": "https://github.com/AudiopodAI/audiopod-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://audiopod.ai/logo/logo.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    },
+    {
+      "src": "https://audiopod.ai/logo/logo.png",
+      "mimeType": "image/png",
+      "sizes": ["362x362"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.audiopod.ai/core",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "Optional. An AudioPod API key (ap_...) for headless use; leave unset to sign in with OAuth.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
