@@ -1,16 +1,17 @@
 # AudioPod MCP Server
 
-Hosted [Model Context Protocol](https://modelcontextprotocol.io) server for **AudioPod's audio AI**. Give any MCP-capable agent — Claude Desktop, Claude Code, Cursor, Continue, Cline, Goose, Codex — ten audio tools over a single endpoint. No install, no local models, no GPU.
+Hosted [Model Context Protocol](https://modelcontextprotocol.io) server for **AudioPod's audio AI**. Give any MCP-capable agent — Claude Desktop, Claude Code, Cursor, Continue, Cline, Goose, Codex — audio tools over a remote endpoint. No install, no local models, no GPU.
 
 | | |
 |---|---|
-| **Endpoint** | `https://mcp.audiopod.ai` |
+| **Full endpoint** | `https://mcp.audiopod.ai` — 18 tools: transcription, stems, noise removal, speakers, MIDI, conversion, speech, voices and music |
+| **Core endpoint** | `https://mcp.audiopod.ai/core` — 9 tools that work on audio you already have; none creates new audio |
 | **Transport** | Streamable-HTTP (MCP `2025-06-18`) |
-| **Auth** | `X-API-Key: ap_*` (or OAuth2 / JWT) — [get a free key](https://audiopod.ai/dashboard/account/api-keys) |
-| **Docs** | https://docs.audiopod.ai/sdks/mcp |
+| **Auth** | OAuth 2.1 — your client opens a sign-in window on first use. For CI / headless use, send `X-API-Key: ap_*` instead ([get a free key](https://audiopod.ai/dashboard/account/api-keys)) |
+| **Docs** | https://docs.audiopod.ai/agents · MCP reference https://docs.audiopod.ai/sdks/mcp |
 | **Discovery** | [`/.well-known/mcp/server-card.json`](https://audiopod.ai/.well-known/mcp/server-card.json) |
 
-**Registry name:** `ai.audiopod/audiopod` (official [MCP Registry](https://registry.modelcontextprotocol.io)).
+**Registry names** (official [MCP Registry](https://registry.modelcontextprotocol.io)): `ai.audiopod/audiopod` (full, [`server.json`](./server.json)) and `ai.audiopod/audiopod-core` (core, [`server-core.json`](./server-core.json)).
 
 **Installing with an agent?** [`llms-install.md`](./llms-install.md) is the unattended-install guide — config for each client, how to verify, and the failures to expect.
 
@@ -24,30 +25,46 @@ API key. [More about the collections](https://docs.audiopod.ai/sdks/postman).
 
 ## Tools
 
-| Tool | Does |
-|---|---|
-| `text_to_speech` | Speech in 200+ languages, 500+ voices and custom clones |
-| `clone_voice` | Clone a voice from a 5–30s reference clip |
-| `change_voice` | Convert a recording to a different target voice |
-| `generate_music` | Songs, instrumentals, rap, or vocal stems from a text prompt |
-| `separate_stems` | Split a track into stems (vocals, drums, bass, …); two-stem mode = karaoke |
-| `separate_speakers` | Isolate each speaker into a separate track |
-| `transcribe_audio` | Transcribe with word-level timestamps and speaker diarization |
-| `denoise_audio` | Remove background noise while preserving voice character |
-| `convert_media` | Convert audio/video formats (mp3/wav/flac/ogg/m4a, mp4/mov) |
-| `check_job_status` | Poll the status/result of a long-running job (free) |
+| Tool | Endpoint | Does |
+|---|---|---|
+| `transcribe_audio` | full, core | Transcribe with word-level timestamps, speaker labels and SRT/VTT subtitles |
+| `separate_stems` | full, core | Split a track into stems (vocals, drums, bass, …); two-stem mode = karaoke |
+| `denoise_audio` | full, core | Remove background noise while preserving voice character |
+| `separate_speakers` | full, core | Put each speaker on their own track |
+| `convert_media` | full, core | Convert audio/video formats (mp3/wav/flac/ogg/m4a, mp4/mov) |
+| `audio_to_midi` | full, core | Convert a recording to MIDI |
+| `check_job_status` | full, core | Poll the status/result of a long-running job (free) |
+| `get_account` | full, core | Check account and credits |
+| `get_profile` | full, core | Identify the connected account |
+| `text_to_speech` | full | Speech in 200+ languages, 500+ voices and custom clones |
+| `clone_voice` | full | Clone a voice (200+ languages) from a 5–30s reference clip, with consent |
+| `change_voice` | full | Convert a recording to a different target voice |
+| `generate_music` | full | Songs, instrumentals, rap, or vocal stems from a text prompt |
+| `compose_music` | full | Compose a song score |
+| `revise_music_score` | full | Revise a song score |
+| `record_music_score` | full | Record a song score to audio |
+| `get_music_score` | full | Read a song score |
+| `edit_music_score` | full | Deprecated alias of `revise_music_score` |
 
 Long-running tools return a `job_id`; poll with `check_job_status`.
 
 ## Add it
 
-**Claude Code**
+**Claude Code** (OAuth sign-in on first use; swap in `/core` for the core endpoint)
 ```bash
-claude mcp add --transport http audiopod https://mcp.audiopod.ai \
-  --header "X-API-Key: ap_YOUR_KEY" --scope user
+claude mcp add --transport http audiopod https://mcp.audiopod.ai --scope user
 ```
 
 **Claude Desktop / Cursor / Continue / Cline** — add to your `mcpServers` config:
+```json
+{
+  "mcpServers": {
+    "audiopod": { "url": "https://mcp.audiopod.ai" }
+  }
+}
+```
+
+**Headless / CI** — skip OAuth with an API key header:
 ```json
 {
   "mcpServers": {
@@ -82,10 +99,12 @@ Apply to **[AudioPod for Startups](https://audiopod.ai/startups)** — free Pro 
 
 - Website — https://audiopod.ai
 - API + SDK docs — https://docs.audiopod.ai
+- Agent guide — https://docs.audiopod.ai/agents
 - MCP setup guide — https://docs.audiopod.ai/sdks/mcp
 
-Two manifests live here and they are not interchangeable: `server.json` is the
-official registry entry (registry schema), `server-card.json` is the MCP server
+Three manifests live here and they are not interchangeable: `server.json` and
+`server-core.json` are the official registry entries (registry schema) for the
+full and core endpoints, `server-card.json` is the MCP server
 card — a reference copy, since the live card is served at the Discovery URL above.
 
 ## License
